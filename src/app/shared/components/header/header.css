@@ -1,0 +1,5 @@
+/* Estilos específicos do Header — base no styles.css global */
+.header__nav-link--active {
+  color: #fff !important;
+  background: rgba(255,255,255,0.15);
+}

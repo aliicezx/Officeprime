@@ -1,1 +1,48 @@
-<p>footer works!</p>
+<!-- src/app/shared/components/footer/footer.component.html -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+
+      <div>
+        <div class="footer__logo">🪑 OfficePrime</div>
+        <p class="footer__tagline">Transformamos ambientes de trabalho com móveis corporativos de alto desempenho e design moderno.</p>
+      </div>
+
+      <div>
+        <p class="footer__col-title">Produtos</p>
+        <div class="footer__links">
+          <a routerLink="/catalogo">Cadeiras Ergonômicas</a>
+          <a routerLink="/catalogo">Mesas de Escritório</a>
+          <a routerLink="/catalogo">Armários</a>
+          <a routerLink="/catalogo">Acessórios</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer__col-title">Empresa</p>
+        <div class="footer__links">
+          <a href="#">Sobre nós</a>
+          <a href="#">Carreiras</a>
+          <a href="#">Blog</a>
+          <a href="#">Parceiros</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer__col-title">Suporte</p>
+        <div class="footer__links">
+          <a href="#">Central de Ajuda</a>
+          <a href="#">Frete & Entrega</a>
+          <a href="#">Trocas & Devoluções</a>
+          <a href="#">Contato</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {{ currentYear }} OfficePrime. Todos os direitos reservados.</span>
+      <span>CNPJ 00.000.000/0001-00 · São Paulo, SP</span>
+    </div>
+  </div>
+</footer>

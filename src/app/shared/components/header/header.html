@@ -1,1 +1,39 @@
-<p>header works!</p>
+<!-- src/app/shared/components/header/header.component.html -->
+<header class="header" [class.header--scrolled]="isScrolled">
+  <div class="container header__inner">
+
+    <a routerLink="/" class="header__logo">
+      <span class="header__logo-icon">🪑</span>
+      <div>
+        <span>OfficePrime</span>
+        <span class="header__logo-sub">Móveis Corporativos</span>
+      </div>
+    </a>
+
+    <div class="header__search">
+      <span class="header__search-icon">🔍</span>
+      <input
+        type="search"
+        placeholder="Buscar produtos..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+      >
+    </div>
+
+    <nav class="header__nav">
+      <a routerLink="/catalogo" routerLinkActive="header__nav-link--active" class="header__nav-link">Catálogo</a>
+      <a routerLink="/catalogo" class="header__nav-link">Cadeiras</a>
+      <a routerLink="/catalogo" class="header__nav-link">Mesas</a>
+
+      <a routerLink="/carrinho" class="header__cart-btn">
+        🛒
+        @if (cartCount > 0) {
+          <span class="header__cart-badge">{{ cartCount }}</span>
+        }
+      </a>
+
+      <a routerLink="/login" class="header__login-btn">Entrar</a>
+    </nav>
+
+  </div>
+</header>

@@ -5,10 +5,12 @@ import { filter, map } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { Footer } from './shared/components/footer/footer';
+import { Header } from './shared/components/header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, Header,Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
