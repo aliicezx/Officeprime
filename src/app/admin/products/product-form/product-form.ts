@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
-import { Sidebar} from '../../shared/sidebar/sidebar';
+import { Sidebar } from '../../shared/sidebar/sidebar';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'app-product-form',
@@ -13,6 +14,7 @@ import { Sidebar} from '../../shared/sidebar/sidebar';
 export class ProductFormComponent implements OnInit {
   isEdit = false;
   saving = false;
+  productId: number | null = null;
   imagePreview: string | null = null;
   discountPct = 0;
 
@@ -25,19 +27,35 @@ export class ProductFormComponent implements OnInit {
     active: true, featured: false,
   };
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService,
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.isEdit = true;
-      // TODO: ProductService.getById(id).subscribe(p => this.form = { ...p })
-      this.form = {
-        name: 'Cadeira Executiva Pro', description: 'Cadeira de alto desempenho para uso corporativo.',
-        category: 'Cadeiras', price: 1299, oldPrice: 1599,
-        stock: 28, sku: 'OP-001', weight: 18,
-        active: true, featured: true,
-      };
+      this.isEdit    = true;
+      this.productId = Number(id);
+      const product  = this.productService.getById(this.productId);
+      if (product) {
+        this.form = {
+          name:        product.name,
+          description: product.description ?? '',
+          category:    product.category,
+          price:       product.price,
+          oldPrice:    product.oldPrice ?? null,
+          stock:       product.stock    ?? null,
+          sku:         product.sku      ?? '',
+          weight:      product.weight   ?? null,
+          active:      product.active   ?? true,
+          featured:    product.featured ?? false,
+        };
+        this.calcDiscount();
+      } else {
+        this.router.navigate(['/admin/produtos']);
+      }
     }
   }
 
@@ -61,7 +79,23 @@ export class ProductFormComponent implements OnInit {
     this.saving = true;
     setTimeout(() => {
       this.saving = false;
-      // TODO: ProductService.save(this.form)
+      this.productService.save({
+        id:          this.productId ?? undefined,
+        name:        this.form.name,
+        description: this.form.description,
+        category:    this.form.category,
+        slug:        this.form.category.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, '-'),
+        price:       this.form.price!,
+        oldPrice:    this.form.oldPrice ?? undefined,
+        stock:       this.form.stock    ?? undefined,
+        sku:         this.form.sku,
+        weight:      this.form.weight   ?? undefined,
+        active:      this.form.active,
+        featured:    this.form.featured,
+        rating:      0,
+        reviews:     0,
+        icon:        '📦',
+      });
       this.router.navigate(['/admin/produtos']);
     }, 1200);
   }

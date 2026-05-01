@@ -18,6 +18,15 @@ export class LoginComponent {
 
   constructor(private router: Router) {}
 
+  loginWithGoogle() {
+    this.loading = true;
+    this.error = '';
+    setTimeout(() => {
+      this.loading = false;
+      this.router.navigate(['/']);
+    }, 1000);
+  }
+
   onSubmit() {
     this.error = '';
     this.loading = true;

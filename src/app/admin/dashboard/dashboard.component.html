@@ -7,7 +7,7 @@
       <span class="admin-topbar__title">Dashboard</span>
       <div class="admin-topbar__actions">
         <span class="text-sm text-muted">{{ today | date:'dd/MM/yyyy' }}</span>
-        <button class="btn btn--primary btn--sm">+ Novo Produto</button>
+        <a routerLink="/admin/produtos/form" class="btn btn--primary btn--sm">+ Novo Produto</a>
       </div>
     </div>
 
@@ -64,7 +64,7 @@
       <div class="card card--flat" style="padding: var(--space-5)">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4)">
           <h3>Pedidos Recentes</h3>
-          <button class="btn btn--ghost btn--sm">Ver todos →</button>
+          <a routerLink="/admin/pedidos" class="btn btn--ghost btn--sm">Ver todos →</a>
         </div>
         <table class="admin-table">
           <thead>

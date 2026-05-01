@@ -22,8 +22,8 @@
 
     <nav class="header__nav">
       <a routerLink="/catalogo" routerLinkActive="header__nav-link--active" class="header__nav-link">Catálogo</a>
-      <a routerLink="/catalogo" class="header__nav-link">Cadeiras</a>
-      <a routerLink="/catalogo" class="header__nav-link">Mesas</a>
+      <a routerLink="/catalogo" [queryParams]="{categoria: 'cadeiras'}" class="header__nav-link">Cadeiras</a>
+      <a routerLink="/catalogo" [queryParams]="{categoria: 'mesas'}" class="header__nav-link">Mesas</a>
 
       <a routerLink="/carrinho" class="header__cart-btn">
         🛒

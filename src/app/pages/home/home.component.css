@@ -89,7 +89,7 @@
   border: 1.5px solid transparent;
 }
 .category-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--color-primary-400); }
-.category-card__icon { font-size: 32px; margin-bottom: var(--space-2); }
+.category-card__icon-img { width: 48px; height: 48px; margin-bottom: var(--space-2); }
 .category-card__name { font-size: 14px; font-weight: 700; color: var(--color-neutral-900); margin-bottom: 4px; }
 .category-card__count { font-size: 12px; color: var(--color-neutral-400); display: block; }
 .category-card__arrow { position: absolute; bottom: var(--space-3); right: var(--space-3); font-size: 14px; color: var(--color-primary-400); opacity: 0; transition: var(--transition-fast); }
@@ -97,7 +97,7 @@
 
 /* ---- PRODUCTS GRID ---- */
 .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
-.product-card__image-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px; background: var(--color-neutral-50); }
+.product-card__img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 /* ---- CTA BANNER ---- */
 .cta-banner { background: linear-gradient(135deg, var(--color-accent-600), var(--color-primary-600)); padding-block: var(--space-12); }

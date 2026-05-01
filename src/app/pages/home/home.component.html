@@ -59,7 +59,7 @@
     <div class="categories-grid">
       @for (cat of categories; track cat.name) {
         <a routerLink="/catalogo" [queryParams]="{categoria: cat.slug}" class="category-card">
-          <div class="category-card__icon">{{ cat.icon }}</div>
+          <img [src]="cat.icon" [alt]="cat.name" class="category-card__icon-img">
           <h3 class="category-card__name">{{ cat.name }}</h3>
           <span class="category-card__count">{{ cat.count }} produtos</span>
           <span class="category-card__arrow">→</span>
@@ -80,7 +80,7 @@
       @for (p of featuredProducts; track p.id) {
         <div class="product-card" (click)="goToProduct(p.id)">
           <div class="product-card__image-wrap">
-            <div class="product-card__image-placeholder">{{ p.icon }}</div>
+            <img [src]="p.icon" [alt]="p.name" class="product-card__img">
             @if (p.discount) {
               <span class="product-card__badge">-{{ p.discount }}%</span>
             }

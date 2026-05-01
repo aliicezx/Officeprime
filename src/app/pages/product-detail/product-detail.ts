@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart.service';
+import { ProductService, Product } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,50 +16,52 @@ export class ProductDetailComponent implements OnInit {
   selectedColor = 'Preto';
   activeTab = 'Descrição';
   tabs = ['Descrição', 'Especificações', 'Avaliações'];
-  thumbs = ['🪑', '🪑', '🪑', '🪑'];
 
   colors = [
-    { name: 'Preto',    hex: '#1F2937' },
-    { name: 'Cinza',    hex: '#9CA3AF' },
-    { name: 'Branco',   hex: '#F9FAFB' },
-    { name: 'Azul',     hex: '#3A5CA8' },
+    { name: 'Preto',  hex: '#1F2937' },
+    { name: 'Cinza',  hex: '#9CA3AF' },
+    { name: 'Branco', hex: '#F9FAFB' },
+    { name: 'Azul',   hex: '#3A5CA8' },
   ];
 
-  product = {
-    id: 1,
-    name: 'Cadeira Executiva Pro',
-    category: 'Cadeiras',
-    icon: '🪑',
-    price: 1299,
-    oldPrice: 1599,
-    discount: 19,
-    rating: 4.9,
-    reviews: 342,
-    description: 'A Cadeira Executiva Pro foi desenvolvida para proporcionar máximo conforto em longas jornadas de trabalho. Com encosto em mesh respirável, apoio lombar ajustável e rodízios silenciosos, ela é a escolha ideal para ambientes corporativos de alto desempenho.',
-    specs: [
-      { key: 'Peso suportado', value: 'até 120 kg' },
-      { key: 'Altura do assento', value: '45–55 cm (ajustável)' },
-      { key: 'Material do encosto', value: 'Mesh respirável' },
-      { key: 'Base', value: 'Alumínio polido' },
-      { key: 'Rodízios', value: 'PU silencioso 360°' },
-      { key: 'Garantia', value: '5 anos' },
-      { key: 'Dimensões', value: '65 × 65 × 120 cm' },
-    ]
+  product: Product = {
+    id: 0,
+    name: '',
+    category: '',
+    slug: '',
+    price: 0,
+    rating: 0,
+    reviews: 0,
+    icon: '',
   };
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  get thumbs(): string[] {
+    return Array(4).fill(this.product.icon);
+  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private cartService: CartService,
+    private productService: ProductService,
+  ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    // TODO: ProductService.getById(id).subscribe(p => this.product = p)
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const found = this.productService.getById(id);
+    if (found) {
+      this.product = found;
+    } else {
+      this.router.navigate(['/catalogo']);
+    }
   }
 
   addToCart() {
-    // TODO: CartService.addItem({ ...this.product, qty: this.qty, color: this.selectedColor })
-    this.router.navigate(['/carrinho']);
+    this.cartService.addItem(this.product, this.qty, this.selectedColor);
   }
 
   buyNow() {
     this.addToCart();
+    this.router.navigate(['/carrinho']);
   }
 }

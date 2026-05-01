@@ -54,6 +54,18 @@ export const routes: Routes = [
     loadComponent: () => import('./admin/products/product-form/product-form').then(m => m.ProductFormComponent)
   },
   {
+    path: 'admin/pedidos',
+    loadComponent: () => import('./admin/pedidos/pedidos').then(m => m.PedidosComponent)
+  },
+  {
+    path: 'admin/clientes',
+    loadComponent: () => import('./admin/clientes/clientes').then(m => m.ClientesComponent)
+  },
+  {
+    path: 'admin/configuracoes',
+    loadComponent: () => import('./admin/configuracoes/configuracoes').then(m => m.ConfiguracoesComponent)
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFoundComponent)
   }
