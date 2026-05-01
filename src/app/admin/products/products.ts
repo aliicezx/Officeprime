@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SidebarComponent } from '../shared/sidebar/sidebar';
+import { Sidebar } from '../shared/sidebar/sidebar';
 
 interface AdminProduct {
   id: number; name: string; category: string; icon: string;
@@ -11,7 +11,7 @@ interface AdminProduct {
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, RouterLink, FormsModule, DecimalPipe, SidebarComponent],
+  imports: [CommonModule, RouterLink, FormsModule, DecimalPipe, Sidebar],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
-import { SidebarComponent } from '../../shared/sidebar/sidebar';
+import { Sidebar} from '../../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-product-form',
-  imports: [CommonModule, FormsModule, RouterLink, SidebarComponent],
+  imports: [CommonModule, FormsModule, RouterLink, Sidebar],
   templateUrl: './product-form.component.html',
   styleUrl: './product-form.component.css'
 })

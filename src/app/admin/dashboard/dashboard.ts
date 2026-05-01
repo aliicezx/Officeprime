@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { SidebarComponent } from '../shared/sidebar/sidebar';
+import { Sidebar } from '../shared/sidebar/sidebar';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink, DatePipe, DecimalPipe, SidebarComponent],
+  imports: [CommonModule, RouterLink, DatePipe, DecimalPipe, Sidebar],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
