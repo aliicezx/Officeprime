@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-header',
   imports: [RouterLink, RouterLinkActive, FormsModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
   searchQuery = '';

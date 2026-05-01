@@ -61,9 +61,9 @@
       <div class="product-info__qty">
         <p class="form-label">Quantidade:</p>
         <div class="qty-input">
-          <button class="qty-input__btn" (click)="qty > 1 && qty--">−</button>
+          <button class="qty-input__btn" (click)="qty > 1 ? qty = qty - 1 : null">−</button>
           <input class="qty-input__field" type="number" [(ngModel)]="qty" min="1" max="10">
-          <button class="qty-input__btn" (click)="qty < 10 && qty++">+</button>
+          <button class="qty-input__btn" (click)="qty < 10 ? qty = qty + 1 : null">+</button>
         </div>
       </div>
 
