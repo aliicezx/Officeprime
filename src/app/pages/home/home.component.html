@@ -1,0 +1,138 @@
+<!-- src/app/pages/home/home.component.html -->
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__content animate-fade-in">
+      <span class="hero__eyebrow">✦ Novo: Linha Flex 2025</span>
+      <h1 class="text-display hero__title">Eleve seu<br><span class="text-accent">espaço de trabalho</span></h1>
+      <p class="hero__desc">Móveis corporativos de alto desempenho, ergonomia comprovada e design que inspira produtividade.</p>
+      <div class="hero__actions">
+        <a routerLink="/catalogo" class="btn btn--primary btn--lg">Ver Catálogo</a>
+        <a href="#categorias" class="btn btn--outline btn--lg">Explorar Categorias</a>
+      </div>
+      <div class="hero__badges">
+        <span class="hero__badge">✅ Frete Grátis acima de R$ 500</span>
+        <span class="hero__badge">🔄 30 dias para troca</span>
+        <span class="hero__badge">🏆 +12.000 clientes</span>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <div class="hero__blob"></div>
+      <div class="hero__floating-card hero__floating-card--1">
+        <span>⭐</span>
+        <div>
+          <strong>4.9/5</strong>
+          <p>Avaliação média</p>
+        </div>
+      </div>
+      <div class="hero__floating-card hero__floating-card--2">
+        <span>📦</span>
+        <div>
+          <strong>Entrega Rápida</strong>
+          <p>em até 7 dias úteis</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="container stats-bar__grid">
+    @for (stat of stats; track stat.label) {
+      <div class="stats-bar__item">
+        <strong class="stats-bar__value">{{ stat.value }}</strong>
+        <span class="stats-bar__label">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- CATEGORIAS -->
+<section class="section" id="categorias">
+  <div class="container">
+    <div class="section-header">
+      <h2>Explore por Categoria</h2>
+      <p class="text-muted">Encontre o mobiliário ideal para cada espaço</p>
+    </div>
+    <div class="categories-grid">
+      @for (cat of categories; track cat.name) {
+        <a routerLink="/catalogo" [queryParams]="{categoria: cat.slug}" class="category-card">
+          <div class="category-card__icon">{{ cat.icon }}</div>
+          <h3 class="category-card__name">{{ cat.name }}</h3>
+          <span class="category-card__count">{{ cat.count }} produtos</span>
+          <span class="category-card__arrow">→</span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- DESTAQUE -->
+<section class="section section--bg">
+  <div class="container">
+    <div class="section-header">
+      <h2>Mais Vendidos</h2>
+      <a routerLink="/catalogo" class="btn btn--outline btn--sm">Ver todos</a>
+    </div>
+    <div class="products-grid">
+      @for (p of featuredProducts; track p.id) {
+        <div class="product-card" (click)="goToProduct(p.id)">
+          <div class="product-card__image-wrap">
+            <div class="product-card__image-placeholder">{{ p.icon }}</div>
+            @if (p.discount) {
+              <span class="product-card__badge">-{{ p.discount }}%</span>
+            }
+            <button class="product-card__wishlist" (click)="toggleWishlist(p.id, $event)">
+              {{ wishlist.has(p.id) ? '❤️' : '🤍' }}
+            </button>
+          </div>
+          <div class="product-card__body">
+            <span class="product-card__category">{{ p.category }}</span>
+            <h3 class="product-card__name">{{ p.name }}</h3>
+            <div class="product-card__rating">
+              <span class="product-card__stars">★★★★★</span>
+              <span>{{ p.rating }} ({{ p.reviews }})</span>
+            </div>
+            <div class="product-card__footer">
+              <div class="product-card__price-wrap">
+                @if (p.oldPrice) {
+                  <span class="product-card__price-old">R$ {{ p.oldPrice | number:'1.2-2' }}</span>
+                }
+                <span class="product-card__price">R$ {{ p.price | number:'1.2-2' }}</span>
+              </div>
+              <button class="product-card__add-btn" (click)="addToCart(p, $event)">+</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- BANNER CTA -->
+<section class="cta-banner">
+  <div class="container cta-banner__inner">
+    <div>
+      <h2>Precisa de um projeto completo?</h2>
+      <p>Nossa equipe monta o escritório dos seus sonhos do zero.</p>
+    </div>
+    <a routerLink="/catalogo" class="btn btn--primary btn--xl">Falar com Especialista</a>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section class="section">
+  <div class="container">
+    <div class="benefits-grid">
+      @for (b of benefits; track b.title) {
+        <div class="benefit-card">
+          <div class="benefit-card__icon">{{ b.icon }}</div>
+          <h4 class="benefit-card__title">{{ b.title }}</h4>
+          <p class="benefit-card__desc">{{ b.desc }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

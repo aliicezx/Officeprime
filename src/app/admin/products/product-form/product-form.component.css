@@ -1,0 +1,24 @@
+.product-form-layout { display: grid; grid-template-columns: 1fr 300px; gap: var(--space-5); align-items: start; }
+.product-form-main { display: flex; flex-direction: column; gap: 0; }
+.product-form-sidebar { position: sticky; top: 80px; }
+
+.form-section-title { font-size: 15px; font-weight: 700; color: var(--color-neutral-900); margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-neutral-100); }
+
+.pf-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-2); }
+
+/* TOGGLE */
+.toggle-row { display: flex; justify-content: space-between; align-items: center; padding: var(--space-4) 0; border-bottom: 1px solid var(--color-neutral-100); }
+.toggle-row:last-child { border-bottom: none; }
+.toggle-btn { width: 44px; height: 24px; background: var(--color-neutral-300); border: none; border-radius: var(--radius-full); cursor: pointer; position: relative; transition: background 0.3s; flex-shrink: 0; }
+.toggle-btn.on { background: var(--color-accent-600); }
+.toggle-btn__knob { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: transform 0.3s; box-shadow: var(--shadow-xs); }
+.toggle-btn.on .toggle-btn__knob { transform: translateX(20px); }
+
+/* IMAGE UPLOAD */
+.image-upload { border: 2px dashed var(--color-neutral-300); border-radius: var(--radius-lg); min-height: 180px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast); overflow: hidden; }
+.image-upload:hover { border-color: var(--color-primary-400); background: var(--color-primary-100); }
+.image-upload.has-image { border-style: solid; }
+.image-upload img { width: 100%; height: 180px; object-fit: cover; }
+.image-upload__placeholder { text-align: center; color: var(--color-neutral-400); }
+.image-upload__placeholder span { font-size: 36px; display: block; margin-bottom: var(--space-2); }
+.image-upload__placeholder p { font-size: 14px; line-height: 1.6; }

@@ -1,0 +1,43 @@
+<!-- src/app/admin/shared/sidebar/sidebar.component.html -->
+<aside class="admin-sidebar">
+  <div class="admin-sidebar__header">
+    <div class="admin-sidebar__logo">🪑 OfficePrime</div>
+  </div>
+
+  <nav class="admin-sidebar__nav">
+    <p class="admin-sidebar__section-title">Principal</p>
+    <a routerLink="/admin/dashboard" routerLinkActive="active" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">📊</span> Dashboard
+    </a>
+    <a routerLink="/admin/produtos" routerLinkActive="active" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">📦</span> Produtos
+    </a>
+
+    <p class="admin-sidebar__section-title">Gestão</p>
+    <a routerLink="/admin/pedidos" routerLinkActive="active" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">🛒</span> Pedidos
+    </a>
+    <a routerLink="/admin/clientes" routerLinkActive="active" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">👥</span> Clientes
+    </a>
+
+    <p class="admin-sidebar__section-title">Sistema</p>
+    <a routerLink="/admin/configuracoes" routerLinkActive="active" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">⚙️</span> Configurações
+    </a>
+    <a routerLink="/" class="admin-sidebar__link">
+      <span class="admin-sidebar__link-icon">🌐</span> Ver Site
+    </a>
+  </nav>
+
+  <div class="admin-sidebar__footer">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="admin-sidebar__avatar">A</div>
+      <div>
+        <div class="admin-sidebar__user-name">Admin</div>
+        <div class="admin-sidebar__user-role">Administrador</div>
+      </div>
+    </div>
+  </div>
+</aside>
+

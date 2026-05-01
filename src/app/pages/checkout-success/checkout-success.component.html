@@ -1,0 +1,41 @@
+<!-- src/app/pages/checkout-success/checkout-success.component.html -->
+<div class="success-page">
+  <div class="success-card animate-fade-in">
+    <div class="success-card__icon">🎉</div>
+    <h1 class="success-card__title">Pedido Confirmado!</h1>
+    <p class="success-card__desc">Obrigado pela sua compra. Você receberá um e-mail de confirmação em breve.</p>
+
+    <div class="success-order-info">
+      <div class="success-info-row">
+        <span class="text-muted">Número do Pedido</span>
+        <strong>#{{ orderId }}</strong>
+      </div>
+      <div class="success-info-row">
+        <span class="text-muted">Previsão de Entrega</span>
+        <strong>{{ deliveryDate }}</strong>
+      </div>
+      <div class="success-info-row">
+        <span class="text-muted">Status</span>
+        <span class="badge badge--success">Pagamento aprovado</span>
+      </div>
+    </div>
+
+    <div class="success-timeline">
+      @for (step of timeline; track step.label; let i = $index) {
+        <div class="timeline-step" [class.done]="i <= currentTimelineStep">
+          <div class="timeline-step__dot">{{ i <= currentTimelineStep ? '✓' : '' }}</div>
+          <div>
+            <strong class="timeline-step__label">{{ step.label }}</strong>
+            <p class="timeline-step__time text-sm text-muted">{{ step.time }}</p>
+          </div>
+          @if (!$last) { <div class="timeline-step__line"></div> }
+        </div>
+      }
+    </div>
+
+    <div class="success-actions">
+      <a routerLink="/" class="btn btn--primary btn--lg">🏠 Voltar ao Início</a>
+      <a routerLink="/catalogo" class="btn btn--outline btn--lg">Continuar Comprando</a>
+    </div>
+  </div>
+</div>

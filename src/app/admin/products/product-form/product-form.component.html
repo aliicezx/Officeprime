@@ -1,0 +1,114 @@
+<!-- src/app/admin/products/product-form/product-form.component.html -->
+<div class="admin-layout">
+  <app-sidebar />
+
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <span class="admin-topbar__title">{{ isEdit ? 'Editar Produto' : 'Novo Produto' }}</span>
+      <div class="admin-topbar__actions">
+        <a routerLink="/admin/produtos" class="btn btn--ghost btn--sm">← Voltar</a>
+      </div>
+    </div>
+
+    <div class="admin-main">
+      <div class="product-form-layout">
+
+        <!-- FORMULÁRIO PRINCIPAL -->
+        <div class="product-form-main">
+          <div class="card card--flat" style="padding: var(--space-6); margin-bottom: var(--space-4)">
+            <h3 class="form-section-title">Informações Básicas</h3>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label">Nome do Produto *</label>
+              <input type="text" class="form-input" placeholder="Ex: Cadeira Executiva Pro" [(ngModel)]="form.name">
+            </div>
+            <div class="form-group" style="margin-bottom:var(--space-4)">
+              <label class="form-label">Descrição</label>
+              <textarea class="form-textarea" rows="4" placeholder="Descreva o produto..." [(ngModel)]="form.description"></textarea>
+            </div>
+            <div class="pf-row-3">
+              <div class="form-group">
+                <label class="form-label">Categoria</label>
+                <select class="form-select" [(ngModel)]="form.category">
+                  @for (c of categories; track c) { <option>{{ c }}</option> }
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Preço (R$) *</label>
+                <input type="number" class="form-input" placeholder="0,00" [(ngModel)]="form.price" (input)="calcDiscount()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Preço Original</label>
+                <input type="number" class="form-input" placeholder="Opcional" [(ngModel)]="form.oldPrice" (input)="calcDiscount()">
+              </div>
+            </div>
+            @if (discountPct > 0) {
+              <p class="text-sm text-success" style="margin-top:4px">🏷️ Desconto calculado: {{ discountPct }}%</p>
+            }
+          </div>
+
+          <div class="card card--flat" style="padding: var(--space-6)">
+            <h3 class="form-section-title">Estoque & Visibilidade</h3>
+            <div class="pf-row-3">
+              <div class="form-group">
+                <label class="form-label">Estoque</label>
+                <input type="number" class="form-input" placeholder="0" [(ngModel)]="form.stock">
+              </div>
+              <div class="form-group">
+                <label class="form-label">SKU</label>
+                <input type="text" class="form-input" placeholder="EX: OP-001" [(ngModel)]="form.sku">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Peso (kg)</label>
+                <input type="number" class="form-input" placeholder="15" [(ngModel)]="form.weight">
+              </div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong>Produto Ativo</strong>
+                <p class="text-sm text-muted">Visível no catálogo público</p>
+              </div>
+              <button type="button" class="toggle-btn" [class.on]="form.active" (click)="form.active = !form.active">
+                <span class="toggle-btn__knob"></span>
+              </button>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <strong>Destaque na Home</strong>
+                <p class="text-sm text-muted">Aparece na seção "Mais Vendidos"</p>
+              </div>
+              <button type="button" class="toggle-btn" [class.on]="form.featured" (click)="form.featured = !form.featured">
+                <span class="toggle-btn__knob"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR IMAGEM + AÇÕES -->
+        <div class="product-form-sidebar">
+          <div class="card card--flat" style="padding: var(--space-5); margin-bottom: var(--space-4)">
+            <h3 class="form-section-title">Imagem Principal</h3>
+            <div class="image-upload" (click)="imgInput.click()" [class.has-image]="imagePreview">
+              @if (imagePreview) {
+                <img [src]="imagePreview" alt="preview">
+              } @else {
+                <div class="image-upload__placeholder">
+                  <span>📷</span>
+                  <p>Clique para enviar<br><span class="text-xs text-muted">PNG, JPG até 5MB</span></p>
+                </div>
+              }
+            </div>
+            <input #imgInput type="file" accept="image/*" hidden (change)="onImageChange($event)">
+          </div>
+
+          <div class="card card--flat" style="padding: var(--space-5)">
+            <button class="btn btn--primary btn--full btn--lg" (click)="save()" [disabled]="saving">
+              {{ saving ? 'Salvando...' : (isEdit ? '💾 Salvar Alterações' : '✅ Criar Produto') }}
+            </button>
+            <button class="btn btn--ghost btn--full btn--sm" style="margin-top: 8px" (click)="cancel()">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

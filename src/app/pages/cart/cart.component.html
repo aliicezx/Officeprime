@@ -1,0 +1,89 @@
+<p>cart works!</p>
+<!-- src/app/pages/cart/cart.component.html -->
+<div class="cart-page">
+  <div class="container">
+    <h1 class="cart-page__title">🛒 Carrinho <span class="text-muted text-sm">({{ items.length }} itens)</span></h1>
+
+    @if (items.length > 0) {
+      <div class="cart-layout">
+
+        <!-- ITENS -->
+        <div class="cart-items">
+          @for (item of items; track item.id) {
+            <div class="cart-item">
+              <div class="cart-item__image">{{ item.icon }}</div>
+              <div class="cart-item__info">
+                <span class="cart-item__category">{{ item.category }}</span>
+                <h3 class="cart-item__name">{{ item.name }}</h3>
+                <span class="cart-item__color text-sm text-muted">Cor: {{ item.color }}</span>
+              </div>
+              <div class="qty-input">
+                <button class="qty-input__btn" (click)="decreaseQty(item)">−</button>
+                <input class="qty-input__field" type="number" [value]="item.qty" readonly>
+                <button class="qty-input__btn" (click)="increaseQty(item)">+</button>
+              </div>
+              <div class="cart-item__price">
+                @if (item.oldPrice) {
+                  <span class="cart-item__price-old">R$ {{ (item.oldPrice * item.qty) | number:'1.2-2' }}</span>
+                }
+                <span class="cart-item__price-current">R$ {{ (item.price * item.qty) | number:'1.2-2' }}</span>
+              </div>
+              <button class="cart-item__remove" (click)="removeItem(item.id)" title="Remover">✕</button>
+            </div>
+          }
+
+          <!-- CUPOM -->
+          <div class="coupon-row">
+            <input type="text" class="form-input" placeholder="Código do cupom (ex: OFFICE10)" [(ngModel)]="couponCode" [class.is-invalid]="couponError">
+            <button class="btn btn--outline btn--sm" (click)="applyCoupon()">Aplicar</button>
+            @if (couponApplied) { <span class="badge badge--success">Cupom aplicado!</span> }
+            @if (couponError)   { <span class="text-error text-sm">{{ couponError }}</span> }
+          </div>
+        </div>
+
+        <!-- RESUMO -->
+        <aside class="order-summary">
+          <h2 class="order-summary__title">Resumo do Pedido</h2>
+
+          <div class="order-summary__row">
+            <span>Subtotal ({{ totalItems }} itens)</span>
+            <span>R$ {{ subtotal | number:'1.2-2' }}</span>
+          </div>
+          @if (discount > 0) {
+            <div class="order-summary__row text-success">
+              <span>Desconto ({{ couponCode }})</span>
+              <span>− R$ {{ discount | number:'1.2-2' }}</span>
+            </div>
+          }
+          <div class="order-summary__row">
+            <span>Frete</span>
+            <span [class.text-success]="frete === 0">{{ frete === 0 ? 'Grátis 🎉' : 'R$ ' + (frete | number:'1.2-2') }}</span>
+          </div>
+          <div class="order-summary__row total">
+            <span>Total</span>
+            <span>R$ {{ total | number:'1.2-2' }}</span>
+          </div>
+
+          <a routerLink="/checkout" class="btn btn--primary btn--lg btn--full" style="margin-top: 20px">
+            Finalizar Compra →
+          </a>
+          <a routerLink="/catalogo" class="btn btn--ghost btn--sm btn--full" style="margin-top: 8px">
+            ← Continuar Comprando
+          </a>
+
+          <div class="cart-secure">
+            <span>🔒</span> Pagamento 100% seguro
+          </div>
+        </aside>
+
+      </div>
+    } @else {
+      <div class="cart-empty">
+        <div class="cart-empty__icon">🛒</div>
+        <h2>Carrinho vazio</h2>
+        <p class="text-muted">Você ainda não adicionou nenhum produto.</p>
+        <a routerLink="/catalogo" class="btn btn--primary btn--lg">Explorar Catálogo</a>
+      </div>
+    }
+  </div>
+</div>

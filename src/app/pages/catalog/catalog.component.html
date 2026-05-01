@@ -1,0 +1,125 @@
+<!-- src/app/pages/catalog/catalog.component.html -->
+<div class="catalog-page">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <span><a routerLink="/">Home</a> / Catálogo</span>
+      @if (activeCategory) { <span> / {{ activeCategory }}</span> }
+    </div>
+  </div>
+
+  <div class="container catalog-layout">
+
+    <!-- SIDEBAR FILTROS -->
+    <aside class="filters-sidebar">
+      <div class="filters-sidebar__header">
+        <h3>Filtros</h3>
+        <button class="btn btn--ghost btn--sm" (click)="clearFilters()">Limpar</button>
+      </div>
+
+      <div class="filter-group">
+        <h4 class="filter-group__title">Categoria</h4>
+        @for (cat of categories; track cat.slug) {
+          <label class="filter-option">
+            <input type="radio" name="cat" [value]="cat.slug" [(ngModel)]="activeCategory" (change)="applyFilters()">
+            <span>{{ cat.name }}</span>
+            <span class="filter-option__count">{{ cat.count }}</span>
+          </label>
+        }
+      </div>
+
+      <div class="filter-group">
+        <h4 class="filter-group__title">Faixa de Preço</h4>
+        <div class="price-range">
+          <input type="number" class="form-input" placeholder="Mín" [(ngModel)]="minPrice" (change)="applyFilters()">
+          <span>–</span>
+          <input type="number" class="form-input" placeholder="Máx" [(ngModel)]="maxPrice" (change)="applyFilters()">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4 class="filter-group__title">Avaliação Mínima</h4>
+        @for (r of [5,4,3]; track r) {
+          <label class="filter-option">
+            <input type="radio" name="rating" [value]="r" [(ngModel)]="minRating" (change)="applyFilters()">
+            <span class="stars">{{ '★'.repeat(r) }}</span>
+          </label>
+        }
+      </div>
+    </aside>
+
+    <!-- PRODUTOS -->
+    <div class="catalog-main">
+
+      <!-- TOOLBAR -->
+      <div class="catalog-toolbar">
+        <div class="catalog-search">
+          <span>🔍</span>
+          <input type="search" class="form-input" placeholder="Buscar no catálogo..." [(ngModel)]="searchQuery" (input)="applyFilters()">
+        </div>
+        <div class="catalog-toolbar__right">
+          <span class="text-sm text-muted">{{ filteredProducts.length }} produtos</span>
+          <select class="form-select" [(ngModel)]="sortBy" (change)="applyFilters()">
+            <option value="relevance">Relevância</option>
+            <option value="price-asc">Menor Preço</option>
+            <option value="price-desc">Maior Preço</option>
+            <option value="rating">Melhor Avaliados</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div class="products-grid">
+        @for (p of paginatedProducts; track p.id) {
+          <div class="product-card" (click)="goToProduct(p.id)">
+            <div class="product-card__image-wrap">
+              <div class="product-card__image-placeholder">{{ p.icon }}</div>
+              @if (p.discount) {
+                <span class="product-card__badge">-{{ p.discount }}%</span>
+              }
+              <button class="product-card__wishlist" (click)="toggleWishlist(p.id, $event)">
+                {{ wishlist.has(p.id) ? '❤️' : '🤍' }}
+              </button>
+            </div>
+            <div class="product-card__body">
+              <span class="product-card__category">{{ p.category }}</span>
+              <h3 class="product-card__name">{{ p.name }}</h3>
+              <div class="product-card__rating">
+                <span class="product-card__stars">★★★★★</span>
+                <span>{{ p.rating }} ({{ p.reviews }})</span>
+              </div>
+              <div class="product-card__footer">
+                <div class="product-card__price-wrap">
+                  @if (p.oldPrice) {
+                    <span class="product-card__price-old">R$ {{ p.oldPrice | number:'1.2-2' }}</span>
+                  }
+                  <span class="product-card__price">R$ {{ p.price | number:'1.2-2' }}</span>
+                </div>
+                <button class="product-card__add-btn" (click)="addToCart(p, $event)">+</button>
+              </div>
+            </div>
+          </div>
+        }
+        @empty {
+          <div class="catalog-empty">
+            <p>😕 Nenhum produto encontrado com esses filtros.</p>
+            <button class="btn btn--outline btn--sm" (click)="clearFilters()">Limpar filtros</button>
+          </div>
+        }
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      @if (totalPages > 1) {
+        <div class="pagination">
+          <button class="pagination__btn" [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">‹</button>
+          @for (p of pageNumbers; track p) {
+            <button class="pagination__btn" [class.active]="p === currentPage" (click)="setPage(p)">{{ p }}</button>
+          }
+          <button class="pagination__btn" [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">›</button>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<!-- src/app/admin/dashboard/dashboard.component.html -->
+<div class="admin-layout">
+  <app-sidebar />
+
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <span class="admin-topbar__title">Dashboard</span>
+      <div class="admin-topbar__actions">
+        <span class="text-sm text-muted">{{ today | date:'dd/MM/yyyy' }}</span>
+        <button class="btn btn--primary btn--sm">+ Novo Produto</button>
+      </div>
+    </div>
+
+    <div class="admin-main">
+
+      <!-- MÉTRICAS -->
+      <div class="metrics-grid">
+        @for (m of metrics; track m.label) {
+          <div class="metric-card" [class]="m.mod">
+            <div class="metric-card__label">{{ m.label }}</div>
+            <div class="metric-card__value">{{ m.value }}</div>
+            <div [class]="m.deltaClass">{{ m.delta }}</div>
+            <div class="metric-card__icon">{{ m.icon }}</div>
+          </div>
+        }
+      </div>
+
+      <!-- CHARTS + ALERTAS -->
+      <div class="dashboard-grid">
+
+        <!-- GRÁFICO DE BARRAS (CSS) -->
+        <div class="card card--flat dashboard-chart">
+          <h3>Faturamento Mensal (R$)</h3>
+          <div class="bar-chart">
+            @for (bar of chartData; track bar.month) {
+              <div class="bar-chart__col">
+                <div class="bar-chart__bar" [style.height.%]="bar.pct" [title]="'R$ ' + bar.value"></div>
+                <span class="bar-chart__label">{{ bar.month }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- ALERTAS ESTOQUE -->
+        <div class="card card--flat dashboard-alerts">
+          <h3>⚠️ Estoque Baixo</h3>
+          @for (a of stockAlerts; track a.name) {
+            <div class="stock-alert">
+              <span class="stock-alert__icon">{{ a.icon }}</span>
+              <div class="stock-alert__info">
+                <strong>{{ a.name }}</strong>
+                <span class="text-sm text-muted">{{ a.stock }} un. restantes</span>
+              </div>
+              <span class="badge" [class]="a.stock <= 2 ? 'badge--error' : 'badge--warning'">
+                {{ a.stock <= 2 ? 'Crítico' : 'Baixo' }}
+              </span>
+            </div>
+          }
+        </div>
+
+      </div>
+
+      <!-- PEDIDOS RECENTES -->
+      <div class="card card--flat" style="padding: var(--space-5)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4)">
+          <h3>Pedidos Recentes</h3>
+          <button class="btn btn--ghost btn--sm">Ver todos →</button>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th><th>Cliente</th><th>Produto(s)</th>
+              <th>Valor</th><th>Status</th><th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (o of recentOrders; track o.id) {
+              <tr>
+                <td><strong>#{{ o.id }}</strong></td>
+                <td>{{ o.client }}</td>
+                <td class="text-sm text-muted">{{ o.product }}</td>
+                <td><strong>R$ {{ o.value | number:'1.2-2' }}</strong></td>
+                <td><span class="badge" [class]="o.badgeClass">{{ o.status }}</span></td>
+                <td class="text-sm text-muted">{{ o.date }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,120 @@
+<!-- src/app/admin/products/products.component.html -->
+<div class="admin-layout">
+  <app-sidebar />
+
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <span class="admin-topbar__title">Produtos</span>
+      <div class="admin-topbar__actions">
+        <a routerLink="/admin/produtos/form" class="btn btn--primary btn--sm">+ Novo Produto</a>
+      </div>
+    </div>
+
+    <div class="admin-main">
+
+      <!-- TABS -->
+      <div class="products-tabs">
+        @for (t of tabs; track t.label) {
+          <button class="products-tab" [class.active]="activeTab === t.value" (click)="setTab(t.value)">
+            {{ t.label }} <span class="products-tab__count">{{ getCount(t.value) }}</span>
+          </button>
+        }
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="products-toolbar">
+        <div class="products-search">
+          <span>🔍</span>
+          <input type="search" class="form-input" placeholder="Buscar produto..." [(ngModel)]="searchQuery" (input)="filterProducts()">
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          @if (selectedIds.size > 0) {
+            <button class="btn btn--danger btn--sm" (click)="showDeleteModal = true">
+              🗑️ Excluir ({{ selectedIds.size }})
+            </button>
+          }
+          <select class="form-select" style="width:160px;height:36px;font-size:13px" [(ngModel)]="sortBy" (change)="filterProducts()">
+            <option value="name">Nome A–Z</option>
+            <option value="price-desc">Maior Preço</option>
+            <option value="stock">Estoque</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="card card--flat" style="overflow:hidden">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" (change)="toggleAll($event)"></th>
+              <th>Produto</th><th>Categoria</th>
+              <th>Preço</th><th>Estoque</th>
+              <th>Status</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of paginatedProducts; track p.id) {
+              <tr [class.row--selected]="selectedIds.has(p.id)">
+                <td><input type="checkbox" [checked]="selectedIds.has(p.id)" (change)="toggleSelect(p.id)"></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-size:24px">{{ p.icon }}</span>
+                    <div>
+                      <div style="font-weight:600">{{ p.name }}</div>
+                      <div class="text-xs text-muted">ID #{{ p.id }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ p.category }}</td>
+                <td><strong>R$ {{ p.price | number:'1.2-2' }}</strong></td>
+                <td>
+                  <span [class]="p.stock <= 3 ? 'text-error' : p.stock <= 10 ? 'text-warning' : ''">
+                    {{ p.stock }} un.
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" [class]="p.active ? 'badge--success' : 'badge--neutral'">
+                    {{ p.active ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td>
+                  <div style="display:flex;gap:6px">
+                    <a [routerLink]="['/admin/produtos/form', p.id]" class="btn btn--ghost btn--sm">✏️</a>
+                    <button class="btn btn--ghost btn--sm" (click)="toggleStatus(p)">{{ p.active ? '🔴' : '🟢' }}</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      @if (totalPages > 1) {
+        <div class="pagination">
+          <button class="pagination__btn" [disabled]="page === 1" (click)="setPage(page - 1)">‹</button>
+          @for (n of pageNumbers; track n) {
+            <button class="pagination__btn" [class.active]="page === n" (click)="setPage(n)">{{ n }}</button>
+          }
+          <button class="pagination__btn" [disabled]="page === totalPages" (click)="setPage(page + 1)">›</button>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EXCLUSÃO -->
+@if (showDeleteModal) {
+  <div class="modal-overlay" (click)="showDeleteModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__icon">🗑️</div>
+      <h2 class="modal__title">Confirmar Exclusão</h2>
+      <p class="modal__message">Deseja excluir {{ selectedIds.size }} produto(s) selecionado(s)? Esta ação não pode ser desfeita.</p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" (click)="showDeleteModal = false">Cancelar</button>
+        <button class="btn btn--danger" (click)="deleteSelected()">Excluir</button>
+      </div>
+    </div>
+  </div>
+}

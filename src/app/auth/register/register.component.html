@@ -1,0 +1,60 @@
+<!-- src/app/auth/register/register.component.html -->
+<div class="auth-page">
+  <div class="auth-card auth-card--wide animate-fade-in">
+
+    <div class="auth-card__logo">🪑 OfficePrime</div>
+    <h1 class="auth-card__title">Criar sua conta</h1>
+    <p class="auth-card__sub">Preencha os dados abaixo</p>
+
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Nome</label>
+          <input type="text" class="form-input" placeholder="João" [(ngModel)]="form.firstName" name="firstName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sobrenome</label>
+          <input type="text" class="form-input" placeholder="Silva" [(ngModel)]="form.lastName" name="lastName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input type="email" class="form-input" placeholder="seu@email.com" [(ngModel)]="form.email" name="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">CPF</label>
+        <input type="text" class="form-input" placeholder="000.000.000-00" [(ngModel)]="form.cpf" name="cpf" (input)="maskCpf($event)" maxlength="14">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefone</label>
+        <input type="tel" class="form-input" placeholder="(11) 99999-9999" [(ngModel)]="form.phone" name="phone" (input)="maskPhone($event)" maxlength="15">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" class="form-input" placeholder="Mín. 8 caracteres" [(ngModel)]="form.password" name="password" (input)="checkStrength()">
+        <div class="password-strength">
+          <div class="password-strength__bar">
+            <div class="password-strength__fill" [style.width]="strengthPct + '%'" [style.background]="strengthColor"></div>
+          </div>
+          <span class="text-xs" [style.color]="strengthColor">{{ strengthLabel }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirmar Senha</label>
+        <input type="password" class="form-input" [class.is-invalid]="passwordMismatch" placeholder="Repita a senha" [(ngModel)]="form.confirmPassword" name="confirmPassword" (input)="checkMatch()">
+        @if (passwordMismatch) { <span class="form-error">Senhas não coincidem</span> }
+      </div>
+
+      <label class="auth-checkbox">
+        <input type="checkbox" [(ngModel)]="acceptTerms" name="terms">
+        Aceito os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>
+      </label>
+
+      <button type="submit" class="btn btn--primary btn--lg btn--full" [disabled]="loading || !acceptTerms || passwordMismatch">
+        {{ loading ? 'Criando conta...' : 'Criar Conta' }}
+      </button>
+    </form>
+
+    <p class="auth-card__footer">Já tem conta? <a routerLink="/login">Entrar</a></p>
+  </div>
+</div>

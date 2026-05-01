@@ -1,0 +1,21 @@
+.cart-page { min-height: 100vh; padding-block: var(--space-8); background: var(--color-neutral-50); }
+.cart-page__title { font-size: 26px; font-weight: 800; margin-bottom: var(--space-6); }
+.cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: var(--space-8); align-items: start; }
+.cart-items { display: flex; flex-direction: column; gap: var(--space-3); }
+.cart-item { display: flex; align-items: center; gap: var(--space-4); background: #fff; border-radius: var(--radius-xl); padding: var(--space-4) var(--space-5); box-shadow: var(--shadow-sm); }
+.cart-item__image { font-size: 48px; flex-shrink: 0; width: 72px; height: 72px; background: var(--color-neutral-50); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+.cart-item__info { flex: 1; }
+.cart-item__category { font-size: 11px; font-weight: 700; color: var(--color-accent-600); text-transform: uppercase; letter-spacing: 0.5px; }
+.cart-item__name { font-size: 15px; font-weight: 600; color: var(--color-neutral-900); margin: 2px 0; }
+.cart-item__price { text-align: right; min-width: 120px; }
+.cart-item__price-old { display: block; font-size: 12px; color: var(--color-neutral-400); text-decoration: line-through; }
+.cart-item__price-current { font-size: 17px; font-weight: 700; color: var(--color-neutral-900); }
+.cart-item__remove { background: none; border: none; font-size: 16px; color: var(--color-neutral-400); cursor: pointer; padding: var(--space-2); border-radius: var(--radius-md); transition: var(--transition-fast); flex-shrink: 0; }
+.cart-item__remove:hover { background: var(--color-error-bg); color: var(--color-error); }
+.coupon-row { display: flex; align-items: center; gap: var(--space-3); background: #fff; border-radius: var(--radius-xl); padding: var(--space-4) var(--space-5); box-shadow: var(--shadow-sm); flex-wrap: wrap; }
+.coupon-row .form-input { flex: 1; min-width: 180px; height: 40px; }
+.cart-secure { text-align: center; font-size: 13px; color: var(--color-neutral-400); margin-top: var(--space-4); }
+.cart-empty { text-align: center; padding: var(--space-20) 0; }
+.cart-empty__icon { font-size: 72px; margin-bottom: var(--space-4); display: block; }
+.cart-empty h2 { font-size: 24px; margin-bottom: var(--space-3); }
+.cart-empty p { margin-bottom: var(--space-6); }

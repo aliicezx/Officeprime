@@ -1,0 +1,112 @@
+<!-- src/app/pages/product-detail/product-detail.component.html -->
+<div class="product-detail-page">
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <a routerLink="/">Home</a> / <a routerLink="/catalogo">Catálogo</a> / {{ product.name }}
+    </div>
+  </div>
+
+  <div class="container product-detail-layout">
+
+    <!-- GALERIA -->
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        <span class="product-gallery__icon">{{ product.icon }}</span>
+        @if (product.discount) {
+          <span class="product-card__badge">-{{ product.discount }}%</span>
+        }
+      </div>
+      <div class="product-gallery__thumbs">
+        @for (t of thumbs; track t) {
+          <div class="product-gallery__thumb">{{ t }}</div>
+        }
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="product-info">
+      <span class="product-card__category">{{ product.category }}</span>
+      <h1 class="product-info__name">{{ product.name }}</h1>
+
+      <div class="product-info__rating">
+        <span class="stars">★★★★★</span>
+        <strong>{{ product.rating }}</strong>
+        <span class="text-muted">({{ product.reviews }} avaliações)</span>
+        <span class="badge badge--success">Em estoque</span>
+      </div>
+
+      <div class="product-info__price-block">
+        @if (product.oldPrice) {
+          <span class="product-info__price-old">R$ {{ product.oldPrice | number:'1.2-2' }}</span>
+        }
+        <span class="product-info__price">R$ {{ product.price | number:'1.2-2' }}</span>
+        <span class="product-info__installment">ou 12x de R$ {{ (product.price / 12) | number:'1.2-2' }} sem juros</span>
+      </div>
+
+      <div class="product-info__colors" *ngIf="colors.length">
+        <p class="form-label">Cor: <strong>{{ selectedColor }}</strong></p>
+        <div class="color-swatches">
+          @for (c of colors; track c.name) {
+            <button
+              class="color-swatch"
+              [class.active]="selectedColor === c.name"
+              [style.background]="c.hex"
+              [title]="c.name"
+              (click)="selectedColor = c.name"
+            ></button>
+          }
+        </div>
+      </div>
+
+      <div class="product-info__qty">
+        <p class="form-label">Quantidade:</p>
+        <div class="qty-input">
+          <button class="qty-input__btn" (click)="qty > 1 && qty--">−</button>
+          <input class="qty-input__field" type="number" [(ngModel)]="qty" min="1" max="10">
+          <button class="qty-input__btn" (click)="qty < 10 && qty++">+</button>
+        </div>
+      </div>
+
+      <div class="product-info__actions">
+        <button class="btn btn--primary btn--lg btn--full" (click)="addToCart()">🛒 Adicionar ao Carrinho</button>
+        <button class="btn btn--secondary btn--lg btn--full" (click)="buyNow()">⚡ Comprar Agora</button>
+      </div>
+
+      <div class="product-info__benefits">
+        <div class="product-info__benefit"><span>🚚</span> Frete grátis acima de R$ 500</div>
+        <div class="product-info__benefit"><span>🔄</span> 30 dias para troca</div>
+        <div class="product-info__benefit"><span>🛡️</span> Garantia de 5 anos</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABS DESCRIÇÃO -->
+  <div class="container product-tabs-section">
+    <div class="product-tabs">
+      @for (tab of tabs; track tab) {
+        <button class="product-tabs__tab" [class.active]="activeTab === tab" (click)="activeTab = tab">{{ tab }}</button>
+      }
+    </div>
+
+    @if (activeTab === 'Descrição') {
+      <div class="product-tab-content animate-fade-in">
+        <p>{{ product.description }}</p>
+      </div>
+    }
+    @if (activeTab === 'Especificações') {
+      <div class="product-tab-content animate-fade-in">
+        <table class="specs-table">
+          @for (spec of product.specs; track spec.key) {
+            <tr><td class="specs-table__key">{{ spec.key }}</td><td>{{ spec.value }}</td></tr>
+          }
+        </table>
+      </div>
+    }
+    @if (activeTab === 'Avaliações') {
+      <div class="product-tab-content animate-fade-in">
+        <p class="text-muted">⭐ Média: {{ product.rating }}/5 — {{ product.reviews }} avaliações verificadas.</p>
+      </div>
+    }
+  </div>
+</div>
