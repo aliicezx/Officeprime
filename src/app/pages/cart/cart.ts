@@ -29,6 +29,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() { this.sub.unsubscribe(); }
 
+  get totalItems() { return this.items.reduce((s, i) => s + i.qty, 0); }
   get frete()    { return this.subtotal >= 500 ? 0 : 49.90; }
   get subtotal() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); }
   get discount() { return this.subtotal * this.discountRate; }
